@@ -17,6 +17,7 @@
  */
  #include <iostream>
  #include <stdexcept>
+ #pragma once
  using namespace std; 
 
 class ordered_array {
