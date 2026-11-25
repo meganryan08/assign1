@@ -76,7 +76,7 @@ class ordered_array {
        return;
       }
 
-      if(sz() == cap()) {
+      if(sz == cap) {
          return;
       }
       //check elements from end and shift
@@ -98,7 +98,7 @@ class ordered_array {
        If e = -2147483648 then this does nothing.
     */
     void remove(int elem) {
-      if{elem == -2147483648}
+      if(elem == -2147483648)
          return;
 
       for(int i = 0; i < sz; i++) {
