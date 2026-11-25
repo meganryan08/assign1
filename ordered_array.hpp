@@ -4,26 +4,29 @@
  * ordered_array.cpp and put the method definitions there, or replace the 
  * method declarations below with definitions. E.g., replace
  *
- *     int size();
+ *     int sz();
  *
  * with 
  * 
- *     int size() 
+ *     int sz() 
  *     {
  *         // Your code here...
  *     }
  *
  * and similarly for all the other functions
  */
+ #include <iostream>
+ #include <stdexcept>
+ using namespace std; 
 
 class ordered_array {
   public:
     /* constructor
-       Construct a new ordered_array with the given capacity (maximum size).
-       The size of a new ordered_array should be 0.
+       Construct a new ordered_array with the given cap (maximum sz).
+       The sz of a new ordered_array should be 0.
     */
-    ordered_array(int cap) : size(0), capacity(cap) {
-      data = new int[capacity]; 
+    ordered_array(int cap) : sz(0), cap(cap) {
+      data = new int[cap]; 
     }; 
       
     /* destructor
@@ -37,25 +40,25 @@ class ordered_array {
     /* This assignment does not require you to implement the copy constructor
        or copy assignment operator, even if you are using dynamic memory.
     */
-    ordered_array(const ordered_array& original) : size(original.size), cpacity(original.capacity) {
-      data = new int[capacity];
-      for(int i = 0; i < original.size; i++) {
-         data[i] = orginal.data[i];
+    ordered_array(const ordered_array& original) : sz(original.sz), cap(original.cap) {
+      data = new int[cap];
+      for(int i = 0; i < original.sz; i++) {
+         data[i] = original.data[i];
       }
     }
 
-    /* size()
-       Returns the size (number of elements in the array).
+    /* sz()
+       Returns the sz (number of elements in the array).
     */
-    int get_size() const {
-      return size;
+    int size() const {
+      return sz;
     }
 
-    /* capacity()
-       Returns the maximum size of the array.
+    /* cap()
+       Returns the maximum sz of the array.
     */
-    int get_capacity() const {
-      return capacity;
+    int capacity() const {
+      return cap;
     }
 
     /* insert(e)
@@ -63,23 +66,27 @@ class ordered_array {
        copies of a value are inserted into the array then n copies should appear
        in the array.
 
-       If size() == capacity() then this does nothing.
+       If sz() == cap() then this does nothing.
 
        If e == -2147483648 then this does nothing (i.e., -2147483648 is not a
        valid value to insert).
     */
     void insert(int elem) {
-      if(size == capacity) {
-         return
+       if (sz == cap || elem == -2147483648) {
+       return;
+      }
+
+      if(sz() == cap()) {
+         return;
       }
       //check elements from end and shift
-      int i = size-1;
+      int i = sz-1;
       while(i >= 0 && data[i] > elem) {
          data[i+1] = data[i]; // copies/shifts greater value into next slot
          i--;
       }
       data[i+1] = elem;
-      size++; //have to update size after adding element!
+      sz++; //have to update sz after adding element!
 
     }
 
@@ -91,14 +98,19 @@ class ordered_array {
        If e = -2147483648 then this does nothing.
     */
     void remove(int elem) {
-      for(int i = 0; i<size ; i++) {
-            if(data[i] == elem) {
-            data[i] = data[i+1];
-         }
-         else if()
+      if{elem == -2147483648}
          return;
+
+      for(int i = 0; i < sz; i++) {
+         if(data[i] == elem) {
+            for(int j = i; j < sz-1; j++) {
+               data[j] = data[j+1];
+            }
+
+            --sz;
+            return;
+         }
       }
-      size--; //decrement size 
     }
 
     /* exists(e)
@@ -106,19 +118,36 @@ class ordered_array {
 
        If e == -2147483648 then this returns false.
     */
-    bool exists(int elem);
+    bool exists(int elem) {
+      if(elem == -2147483648)
+         return false;
+
+      for(int i=0; i< sz; i++) {
+         if(data[i] == elem) {
+         return true;
+         }
+      }
+
+      return false;
+   }
 
     /* at(i)
-       Returns a *reference* to the element at index i. If i < 0 or i >= size(),
+       Returns a *reference* to the element at index i. If i < 0 or i >= sz(),
        then the function should throw a std::out_of_range exception (this is the
        same exception that std::vector::at would throw in this situation).
 
        Note that at() should *never* return -2147483648.
     */
-    int& at(int i);
+    int& at(int i) {
+      if( i < 0 || i >= sz) {
+         throw std::out_of_range("Invalid Index");
+      }
+
+      return data[i];
+    }
 
   private:
    int* data;
-   int size;
-   int capacity;
+   int sz;
+   int cap;
 };
